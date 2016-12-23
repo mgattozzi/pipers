@@ -1,9 +1,9 @@
 [package]
 name = "pipers"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Michael Gattozzi <mgattozzi@gmail.com>"]
 description = "Pipe shell commands easily"
-documentation = "https://docs.rs/pipers/1.0.0/pipers/"
+documentation = "https://docs.rs/pipers/1.0.1/pipers/"
 homepage = "https://github.com/mgattozzi/pipers"
 repository = "https://github.com/mgattozzi/pipers"
 readme = "README.md"

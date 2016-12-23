@@ -5,7 +5,7 @@ use std::io::{Error, ErrorKind, Result};
 
 /// Data structure used to hold processes
 /// and allows for the chaining of commands
-struct Pipe {
+pub struct Pipe {
     child: Result<Child>,
 }
 
@@ -16,7 +16,7 @@ impl Pipe {
     /// cause the eventual end of the piping to have
     /// an error returned. Make sure you place in an
     /// actual command.
-    fn new(command: &str) -> Pipe {
+    pub fn new(command: &str) -> Pipe {
         let mut split = command.split_whitespace();
         let command = match split.next() {
             Some(x) => x,
@@ -34,7 +34,7 @@ impl Pipe {
 
     /// This is used to chain commands together. Use this for each
     /// command that you want to pipe.
-    fn then(self, command: &str) -> Pipe {
+    pub fn then(self, command: &str) -> Pipe {
         let stdout = match self.child {
             Ok(child) => match child.stdout {
                 Some(stdout) => stdout,
@@ -63,7 +63,7 @@ impl Pipe {
 
     /// Return the `Child` process of the final command that
     /// had data piped into it.
-    fn finally(self) -> Result<Child> {
+    pub fn finally(self) -> Result<Child> {
         self.child
     }
 
