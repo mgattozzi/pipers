@@ -1,4 +1,4 @@
-# Pipe
+# Pipers
 
 A simple Rust library that allows you to pipe commands into
 each other.
@@ -8,7 +8,7 @@ In your Cargo.toml:
 
 ```toml
 [dependencies]
-curryrs = "1.0.0"
+pipers = "1.0.0"
 ```
 
 ## How to use

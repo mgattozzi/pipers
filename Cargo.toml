@@ -1,11 +1,11 @@
 [package]
-name = "pipe"
+name = "pipers"
 version = "1.0.0"
 authors = ["Michael Gattozzi <mgattozzi@gmail.com>"]
 description = "Pipe shell commands easily"
-documentation = "https://docs.rs/pipe/1.0.0/pipe/"
-homepage = "https://github.com/mgattozzi/pipe"
-repository = "https://github.com/mgattozzi/pipe"
+documentation = "https://docs.rs/pipers/1.0.0/pipers/"
+homepage = "https://github.com/mgattozzi/pipers"
+repository = "https://github.com/mgattozzi/pipers"
 readme = "README.md"
 keywords = ["Shell", "Command"]
 license = "MIT/Apache-2.0"
