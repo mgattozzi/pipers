@@ -1,0 +1,13 @@
+[package]
+name = "pipe"
+version = "1.0.0"
+authors = ["Michael Gattozzi <mgattozzi@gmail.com>"]
+description = "Pipe shell commands easily"
+documentation = "https://docs.rs/pipe/1.0.0/pipe/"
+homepage = "https://github.com/mgattozzi/pipe"
+repository = "https://github.com/mgattozzi/pipe"
+readme = "README.md"
+keywords = ["Shell", "Command"]
+license = "MIT/Apache-2.0"
+
+[dependencies]
