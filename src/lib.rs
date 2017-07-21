@@ -32,6 +32,25 @@ impl Pipe {
         }
     }
 
+    /// Similar to ::new, but takes a directory in
+    /// as a location to run the command
+    pub fn new_current_dir(command: &str, path: &str) -> Pipe {
+        let mut split = command.split_whitespace();
+        let command = match split.next() {
+            Some(x) => x,
+            None => return pipe_new_error("No command as input"),
+        };
+        let args  = split.collect::<Vec<&str>>();
+
+        Pipe {
+            child: Command::new(command)
+                .args(args.as_slice())
+                .current_dir(path)
+                .stdout(Stdio::piped())
+                .spawn(),
+        }
+    }
+
     /// This is used to chain commands together. Use this for each
     /// command that you want to pipe.
     pub fn then(self, command: &str) -> Pipe {
@@ -57,6 +76,36 @@ impl Pipe {
                     .stdout(Stdio::piped())
                     .stdin(stdio)
                     .spawn(),
+        }
+
+    }
+
+    /// Similar to ::then, but will take a
+    /// location to run the command in
+    pub fn then_current_dir(self, command: &str, path: &str) -> Pipe {
+        let stdout = match self.child {
+            Ok(child) => match child.stdout {
+                Some(stdout) => stdout,
+                None => return pipe_new_error("No stdout for a command"),
+            },
+            Err(e) => return pipe_error(Err(e)),
+        };
+
+        let mut split = command.split_whitespace();
+        let command = match split.next() {
+            Some(x) => x,
+            None => return pipe_new_error("No command as input"),
+        };
+        let args  = split.collect::<Vec<&str>>();
+        let stdio = unsafe{ Stdio::from_raw_fd(stdout.as_raw_fd()) };
+
+        Pipe {
+            child: Command::new(command)
+                .args(args.as_slice())
+                .current_dir(path)
+                .stdout(Stdio::piped())
+                .stdin(stdio)
+                .spawn(),
         }
 
     }
@@ -97,4 +146,16 @@ fn test_pipe() {
                 .expect("failed to wait on child");
 
     assert_eq!("u", &String::from_utf8(out.stdout).unwrap());
+}
+
+#[test]
+fn test_current_dir() {
+    let out = Pipe::new_current_dir("ls /", "/")
+        .then_current_dir("pwd", "/")
+        .finally()
+        .expect("Commands did not pipe")
+        .wait_with_output()
+        .expect("failed to wait on child");
+
+    assert_eq!("/\n", &String::from_utf8(out.stdout).unwrap());
 }
