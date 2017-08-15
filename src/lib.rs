@@ -150,12 +150,12 @@ fn test_pipe() {
 
 #[test]
 fn test_current_dir() {
-    let out = Pipe::new_current_dir("ls /", "/")
-        .then_current_dir("pwd", "/")
+    let out = Pipe::new_current_dir("find . -type d -maxdepth 1 -name usr", "/")
+        .then_current_dir("cat $1; find . -type d -maxdepth 1 -name local", "/usr")
         .finally()
         .expect("Commands did not pipe")
         .wait_with_output()
         .expect("failed to wait on child");
 
-    assert_eq!("/\n", &String::from_utf8(out.stdout).unwrap());
+    assert_eq!("./usr\n./local\n", &String::from_utf8(out.stdout).unwrap());
 }
